@@ -10,39 +10,25 @@ dailyWage=0;
 maxWorkingDay=20;
 maxWorkingHrs=100;
 totalWorkingHr=0;
-totalWorkingDay=1
-while [ $totalWorkingDay -le $maxWorkingDay ] && [ $totalWorkingHr -lt $maxWorkingHrs ]
+totalWorkingDay=1;
+wHrs=0
+function empWorkingHr() {
+	case $1 in
+      $isPartTime)
+         wHrs=4;;
+      $isFullTime)
+         wHrs=8;;
+      *)
+         wHrs=0;;
+   esac;
+	echo $wHrs;
+}
+while [ $totalWorkingDay -le $maxWorkingDay ] && [ $totalWorkingHr -le $maxWorkingHrs ]
 do
-	attendance=$((RANDOM%3));
-	case $attendance in
-		$isPartTime)
-			workingHrs=4;
-			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
-			echo "Day $totalWorkingDay -- Part Time";
-			echo "Total working Hours --> $totalWorkingHr";;
-		$isFullTime)
-			workingHrs=8;
-			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
-			echo "Day $totalWorkingDay -- Full Time";
-         echo "Total working Hours --> $totalWorkingHr";;
-		$absent)
-			workingHrs=0;
-			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
-			echo "Day $totalWorkingDay -- Absent"
-         echo "Total working Hours --> $totalWorkingHr";;
-	esac;
+	workingHrs="$( empWorkingHr $((RANDOM%3)) )";
+	totalWorkingHr=$(($workingHrs+$totalWorkingHr));
+  	dailyWage=$(($dailyWage + $workingHrs*$wagePerHr));
 	((totalWorkingDay++))
-
-	if [ $attendance -eq 2 ]
-	then
-   	dailyWage=$(($dailyWage + $workingHrs*$wagePerHr));
-	elif [ $attendance -eq 1 ]
-	then
-		dailyWage=$(($dailyWage + $workingHrs*$wagePerHr))
-	fi
 done
-	echo "Monthly Wage: $dailyWage"
-
-
-
+echo "Monthly Wage: $dailyWage"
 
