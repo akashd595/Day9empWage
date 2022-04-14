@@ -8,22 +8,30 @@ workingHrs=0;
 wagePerHr=20;
 dailyWage=0;
 maxWorkingDay=20;
-num=1
-while [ $num -le $maxWorkingDay ]
+maxWorkingHrs=100;
+totalWorkingHr=0;
+totalWorkingDay=1
+while [ $totalWorkingDay -le $maxWorkingDay ] && [ $totalWorkingHr -lt $maxWorkingHrs ]
 do
 	attendance=$((RANDOM%3));
 	case $attendance in
 		$isPartTime)
-			echo "Day $num -- Part Time";
-			workingHrs=4;;
+			workingHrs=4;
+			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
+			echo "Day $totalWorkingDay -- Part Time";
+			echo "Total working Hours --> $totalWorkingHr";;
 		$isFullTime)
-			echo "Day $num -- Full Time";
-			workingHrs=8;;
+			workingHrs=8;
+			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
+			echo "Day $totalWorkingDay -- Full Time";
+         echo "Total working Hours --> $totalWorkingHr";;
 		$absent)
-			echo "Day $num -- Absent"
-			workingHrs=0;;
+			workingHrs=0;
+			totalWorkingHr=$(($totalWorkingHr+$workingHrs));
+			echo "Day $totalWorkingDay -- Absent"
+         echo "Total working Hours --> $totalWorkingHr";;
 	esac;
-	((num++))
+	((totalWorkingDay++))
 
 	if [ $attendance -eq 2 ]
 	then
