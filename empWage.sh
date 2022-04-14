@@ -7,25 +7,33 @@ absent=0
 workingHrs=0;
 wagePerHr=20;
 dailyWage=0;
-attendance=$((RANDOM%3));
+maxWorkingDay=20;
+num=1
+while [ $num -le $maxWorkingDay ]
+do
+	attendance=$((RANDOM%3));
+	case $attendance in
+		$isPartTime)
+			echo "Day $num -- Part Time";
+			workingHrs=4;;
+		$isFullTime)
+			echo "Day $num -- Full Time";
+			workingHrs=8;;
+		$absent)
+			echo "Day $num -- Absent"
+			workingHrs=0;;
+	esac;
+	((num++))
 
-case $attendance in
-	$isPartTime)
-		workingHrs=4;;
-	$isFullTime)
-		workingHrs=8;;
-	$absent)
-		workingHrs=0;;
-esac;
-
-if [ $attendance -eq 2 ]
-then
-   dailyWage=$(($workingHrs*$wagePerHr));
-elif [ $attendance -eq 1 ]
-then
-	dailyWage=$(($workingHrs*$wagePerHr))
-fi
-echo "Daily Wage: $dailyWage"
+	if [ $attendance -eq 2 ]
+	then
+   	dailyWage=$(($dailyWage + $workingHrs*$wagePerHr));
+	elif [ $attendance -eq 1 ]
+	then
+		dailyWage=$(($dailyWage + $workingHrs*$wagePerHr))
+	fi
+done
+	echo "Monthly Wage: $dailyWage"
 
 
 
