@@ -6,7 +6,7 @@ isFullTime=2;
 absent=0
 workingHrs=0;
 wagePerHr=20;
-dailyWage=0;
+monthlyWage=0;
 maxWorkingDay=20;
 maxWorkingHrs=100;
 totalWorkingHr=0;
@@ -26,9 +26,11 @@ function empWorkingHr() {
 while [ $totalWorkingDay -le $maxWorkingDay ] && [ $totalWorkingHr -le $maxWorkingHrs ]
 do
 	workingHrs="$( empWorkingHr $((RANDOM%3)) )";
-	totalWorkingHr=$(($workingHrs+$totalWorkingHr));
-  	dailyWage=$(($dailyWage + $workingHrs*$wagePerHr));
+	DailyWage[(($totalWorkingDay))]=$(($workingHrs*$wagePerHr));
+  	monthlyWage=$(($monthlyWage + $workingHrs*$wagePerHr));
 	((totalWorkingDay++))
 done
-echo "Monthly Wage: $dailyWage"
+echo ${DailyWage[@]};
+echo ${!DailyWage[@]};
+echo "Monthly Wage: $monthlyWage";
 
