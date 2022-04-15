@@ -23,10 +23,11 @@ function empWorkingHr() {
    esac;
 	echo $wHrs;
 }
+declare -A DailyWage
 while [ $totalWorkingDay -le $maxWorkingDay ] && [ $totalWorkingHr -le $maxWorkingHrs ]
 do
 	workingHrs="$( empWorkingHr $((RANDOM%3)) )";
-	DailyWage[(($totalWorkingDay))]=$(($workingHrs*$wagePerHr));
+	DailyWage["Day "$(($totalWorkingDay))]=$(($workingHrs*$wagePerHr));
   	monthlyWage=$(($monthlyWage + $workingHrs*$wagePerHr));
 	((totalWorkingDay++))
 done
